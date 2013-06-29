@@ -1,0 +1,66 @@
+<head>
+  <title>meteor_app</title>
+</head>
+
+<body>
+  {{> header}}
+  {{> dashboard}}
+</body>
+
+<template name="header">
+<div class="navbar">
+  <div class="navbar-inner">
+    <a class="brand" href="#">Moves with Friends</a>
+    <div class="pull-right">
+      {{ loginButtons align="right" }}
+    </div>
+  </div>
+</div>
+</template>
+
+<template name="dashboard">
+    <table>
+    <tr>
+        <th>id</th>
+        <th>date</th>
+        <th>lat</th>
+        <th>lon</th>
+        <th>horiz accuracy</th>
+        <th>true heading</th>
+        <th>mag heading</th>
+        <th>heading accuracy</th>
+        <th>altitude</th>
+    </tr>
+    {{#each users}}
+    <tr>
+    <td>
+    {{_id}}
+    </td>
+    <td>
+    {{profile.date}}
+    </td>
+    <td>
+    {{profile.latitude}}
+    </td>
+    <td>
+    {{profile.longitude}}
+    </td>
+    <td>
+    {{profile.horizontalAccuracy}}
+    </td>
+    <td>
+    {{profile.trueHeading}}
+    </td>
+    <td>
+    {{profile.magneticHeading}}
+    </td>
+    <td>
+    {{profile.headingAccuracy}}
+    </td>
+    <td>
+    {{profile.altitude}}
+    </td>
+    </tr>
+    {{/each}}
+    </table>
+</template>
