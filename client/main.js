@@ -37,11 +37,6 @@ function addDestination(){
 }
 
 
-
-//
-//
-//
-
 function numberToRadius  (number) {
   return number * Math.PI / 180;
 }
@@ -67,12 +62,7 @@ function distanceBetween(pt1, pt2){
 //
 function setupMap(element)
 {
-//  var map = L.map('map'),
-//  mapboxUrl = 'http://{s}.tiles.mapbox.com/v3/dmt.map-f9qb0tnz/{z}/{x}/{y}.png',
-//  mapboxAttrib = 'Data by<a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> and contributors. Tiles by <a href="http://mapbox.com/">Mapbox</a>',
-//  mapbox = new L.TileLayer(mapboxUrl, {maxZoom: 19, attribution: mapboxAttrib, subdomains: 'abcd'});
-  
-//  map.addLayer(mapbox);
+
 
   directionsService = new google.maps.DirectionsService();
 
@@ -161,25 +151,6 @@ $(function(){
     
   }
   
-  //
-  // Otherwise, just pick out the center of the city and then try geolocating.
-  //
-  //map.setView(__defaults.center, 12);
-  //map.on('locationfound', onLocationFound);
-  //map.locate({setView: false, maxZoom: 19});
-
-
-
-//  var iconHTML = '<img src="https://si0.twimg.com/profile_images/3426163869/d60b7bbc8556852954563055ed2c1727_bigger.jpeg" '+
-  //  'class="img-circle unknown">';
-
-
-//  var userIcon = L.divIcon({className: 'user-icon',
-//                            html:iconHTML});
-  // you can set .my-div-icon styles in CSS
-
-  //L.marker([37.774853254793086, -122.41322994232178], {icon: userIcon}).addTo(map);
-
 
   $("#addressentry").on("submit", function(e){
     e.preventDefault();
