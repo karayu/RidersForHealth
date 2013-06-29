@@ -1,11 +1,18 @@
+
 <head>
+
   <title>meteor_app</title>
 </head>
 
 <body>
   {{> header}}
   {{> dashboard}}
+  {{> map}}
 </body>
+
+<template name="map">
+  <div id="map"></div>
+</template>
 
 <template name="header">
 <div class="navbar">
