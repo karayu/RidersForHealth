@@ -137,12 +137,13 @@ function setupMap(element)
     }
   });
 
-
+  Session.set("showroutes", "none");
   $("form#addressentry").submit(function(e){
     e.preventDefault();
     Session.set("end", $("input#address").val());
     $("div.address").fadeOut("fast");
     $("div#routes").fadeIn("fast");
+    Session.set("showroutes", "block");
   });
 
 
@@ -154,6 +155,9 @@ Template.routes.time = function(){
 }
 Template.routes.userroutes = function(){
   return UserRoutes.find()
+}
+Template.routes.showroutes = function(){
+  return Session.get("showroutes")
 }
 
 
