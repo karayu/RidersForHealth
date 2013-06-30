@@ -108,9 +108,15 @@ function setupMap(element)
       if(user.emails){
         if(user.emails[0].address)
           imgUrl += md5(user.emails[0].address);
-      
-        markers[user._id] = new UserIcon(new google.maps.LatLng("37.767745", "-122.441475"), imgUrl, map, "active");
-        calcRoute("37.767745, -122.441475", end, user);
+
+
+        lat = user.profile.latitude || "37.76774";
+        lng = user.profile.longitude || "-122.44147";
+
+        if(shouldcalcRoute(lat+", "+lng, end, user)){
+          markers[user._id] = new UserIcon(new google.maps.LatLng(lat, lng), imgUrl, map, "active");
+          calcRoute(lat+", "+lng, end, user);
+        }
       }
     });
   });
@@ -124,7 +130,15 @@ function setupMap(element)
       $("#subtitle").hide();
       $("img#logo").animate({"width": "188px", "padding": "0px 0px 20px 0px"}, 500);
       $("#map").animate({"top": "110px"}, 500);
+
     }
+  });
+
+  $("form#addressentry").submit(function(e){
+    e.preventDefault();
+    Session.set("end", $("input#address").val());
+    $("div.address").fadeOut("fast");
+    $("div#routes").fadeIn("fast");
   });
 
 

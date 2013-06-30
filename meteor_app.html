@@ -9,6 +9,8 @@
   {{> header}}
   {{> map}}
   {{> routes}}
+  {{> address}}
+  
 </body>
 
 <template name="map">
@@ -44,12 +46,10 @@
 
     {{#if emails}}
     <div class="route">
-      <h3>
-
+      <h3 style="background:{{color}}">
         {{#each emails}}
         {{address}}
         {{/each}}
-        
       </h3>
 
 
@@ -78,4 +78,19 @@
     {{/if}}
     {{/each}}
 
+</template>
+
+
+<template name="address">
+
+
+  <div class="address">
+    <h2>Where do you want to party?</h2>
+    <form id="addressentry">
+      <input type="text" id="address" placeholder="Enter an address here, yo" /><input type="submit" value="Go" id="submitaddress" />
+    </form>
+
+
+  </div>
+  
 </template>
