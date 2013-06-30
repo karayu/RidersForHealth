@@ -117,6 +117,7 @@ a:hover {
   padding:5px;
   font-weight:bold;
   text-transform:uppercase;
+  height: 41px;
 }
 #routes div.route span.time,
 #routes div.route div.duration{
@@ -130,6 +131,12 @@ a:hover {
 
 #routes div.route p {
   text-transform: uppercase;
+  margin-bottom: 0px;
+}
+
+#routes div.route div.transportmode {
+  padding-bottom: 20px;
+  font-style: italic;
 }
 
 /* overrides Safari from making the the text field and button round */
