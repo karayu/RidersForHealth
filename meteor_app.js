@@ -1,3 +1,4 @@
+
 if (Meteor.isClient) {
   Template.dashboard.users = function() {
     return Meteor.users.find();

@@ -8,16 +8,27 @@
   {{> header}}
   {{> dashboard}}
   {{> map}}
+  {{> routes}}
 </body>
 
 <template name="map">
   <div id="map"></div>
 </template>
 
+<template name="routes">
+  <div id="routes">
+    <span>  Routes</span>
+    {{#each routes}}
+      <div><span style="color:{{color}}">{{name}}</span> - {{duration}} - {{distance}} - {{transitType}}</div>
+    {{/each}}
+  </div>
+</template>
+
+
 <template name="header">
 <div class="navbar">
   <div class="navbar-inner">
-    <a class="brand" href="#">Moves with Friends</a>
+    <a class="brand" href="#">Friends with Moves</a>
     <div class="pull-right">
       {{ loginButtons align="right" }}
     </div>

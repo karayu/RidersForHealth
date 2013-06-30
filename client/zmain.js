@@ -11,7 +11,7 @@ var __defaults = {
   mapquest_key: "Fmjtd|luua2q6and,aa=o5-hzb59"
 };
 
-
+Session.set("routes", undefined)
 //
 // Callback function for geocode results from Mapquest Open.
 // http://open.mapquestapi.com/geocoding/
@@ -71,7 +71,9 @@ function setupMap(element)
   var mapOptions = {
     zoom:18,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
-    center: sf
+    center: sf,
+    mapTypeControl:false,
+    streetViewControl:false
   }
   map = new google.maps.Map(document.getElementById("map"), mapOptions);
   directionsDisplay.setMap(map);
@@ -96,12 +98,47 @@ function setupMap(element)
   var srcImage = 'https://si0.twimg.com/profile_images/3426163869/d60b7bbc8556852954563055ed2c1727_bigger.jpeg';
   overlay = new UserIcon(map.getCenter(), srcImage, map, "active");
 
+  calcRoute("37.767745, -122.441475", "155 9th st. sf", google.maps.TravelMode.WALKING)
+  calcRoute("1461 alice st. oakland, ca", "155 9th st. sf", google.maps.TravelMode.DRIVING)
 
 }
 
-function calcRoute() {
-  var start = document.getElementById("start").value;
-  var end = document.getElementById("end").value;
+var colors = ["#ff0000", "#00ff00", "#0000ff"];
+colorCount =0;
+
+
+
+
+
+Template.routes.routes = function () {
+
+  return Session.get("routes");
+};
+
+function calcRoute(start, end) {
+
+  function renderDirections(result) {
+    var directionsRenderer = new google.maps.DirectionsRenderer({polylineOptions: {strokeColor: colors[colorCount]},
+                                                                 suppressMarkers: true});
+    colorCount+=1;
+    directionsRenderer.setMap(map);
+    directionsRenderer.setDirections(result);
+
+    console.log(result)
+    
+    routes = Session.get("routes");
+    if(!routes)
+      routes =[];
+    routes.push({name: "Eeyore", 
+                 distance:result.routes[0].legs[0].distance.text,
+                 duration: result.routes[0].legs[0].duration.text,
+                 transitType: "walking"
+                });
+    Session.set("routes", routes);
+
+
+  }
+
   var request = {
     origin:start,
     destination:end,
@@ -109,7 +146,8 @@ function calcRoute() {
   };
   directionsService.route(request, function(result, status) {
     if (status == google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(result);
+      renderDirections(result)
+
     }
   });
 
@@ -260,7 +298,7 @@ function UserIcon(center, image, map, status) {
   this.center_ =center;
   this.image_ = image;
   this.map_ = map;
-  this.size = 100;
+  this.size = 60;
   this.status = status;
   // We define a property to hold the image's
   // div. We'll actually create this div
@@ -330,8 +368,8 @@ UserIcon.prototype.draw = function() {
   var div = this.div_;
   div.style.left = loc.x-50 + 'px';
   div.style.top = loc.y-50 + 'px';
-  div.style.width =  '100px';  // this should be based on the zoom level..
-  div.style.height =  '100px';
+  div.style.width =  this.size+'px';  // this should be based on the zoom level..
+  div.style.height =  this.size+'px';
 }
 
 UserIcon.prototype.onRemove = function() {

@@ -29,7 +29,7 @@ a:hover {
 
 #map { 
   position:absolute;
-  top:0px;
+  top:42px;
   bottom:0px;
   left:0px;
   right:0px;
@@ -37,6 +37,10 @@ a:hover {
 }
 #map img {
   max-width: none;
+}
+
+.user-icon{ 
+  z-index:1000;
 }
 
 .user-icon img.active{ 
@@ -49,6 +53,22 @@ a:hover {
 .user-icon img.unknown{ 
   border: solid 6px #999;
 }
+
+#routes{ 
+  position:absolute;
+  right:10px;
+  width:250px;
+  top:60px;
+  bottom:0px;
+  z-index:1001;
+}
+#routes div.route{ 
+  min-height:150px;
+  width:250px;
+  border:solid 1px #999;
+  background: rgba(25, 25, 25, .3);
+}
+
 
 
 /* overrides Safari from making the the text field and button round */
