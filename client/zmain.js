@@ -12,29 +12,6 @@ var __defaults = {
 };
 
 Session.set("routes", undefined)
-//
-// Callback function for geocode results from Mapquest Open.
-// http://open.mapquestapi.com/geocoding/
-//
-function onAddressFound(response)
-{
-  var center = response.results[0].locations[0].latLng;
-  addDestination(center);
-
-  showAllPoints();
-}
-
-// show all markers, and the destination, zoom out/in to fit
-
-function showAllPoints(){
-
-
-}
-
-function addDestination(){
-
-
-}
 
 
 function numberToRadius  (number) {
@@ -163,9 +140,11 @@ function setupMap(element)
           $elRotate.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
           $elRotate.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
       }
-      var $elRotate = $('.'+ user._id), degree = user.profile.trueHeading;
-      if ($elRotate.length !== 0) {
+      if((user.profile)&&(user.profile.trueHeading)){
+        var $elRotate = $('.'+ user._id), degree = user.profile.trueHeading;
+        if ($elRotate.length !== 0) {
           rotate(degree);
+        }
       }
     }
   });
@@ -406,30 +385,13 @@ function prettyDate(time){
 	day_diff > 730 && Math.floor( day_diff / 365 ) + " years ago";
 }
 
+Template.map.rendered =  function(){
+  setupMap('map');  
+}
+
 
 $(function(){
 
-
-  Template.map.rendered =  function(){
-    setupMap('map');
-
-  }
-
-
-  $("#addressentry").on("submit", function(e){
-    e.preventDefault();
-
-    var url = "http://open.mapquestapi.com/geocoding/v1/address";
-
-    var data = {outFormat:"json",
-                inFormat:"kvp",
-                key:__defaults.mapquest_key,
-                boundingBox:"37.816,-122.536,37.693,-122.340",
-                location:$("#address").val() + ', ' + __defaults.city_name};
-
-    $.ajax(url, {data: data, dataType: 'jsonp', success: onAddressFound});
-
-  });
 
 
   function initializeLocation() {
@@ -472,41 +434,6 @@ $(function(){
 
 
 });
-
-function getDirections(from, to){
-
-  url = "http://www.mapquestapi.com/directions/v1/route?key=Fmjtd%7Cluua2q6and%2Caa%3Do5-hzb59&shapeFormat=raw&generalize=0";
-
-  $.ajax(url+"&ambiguities=ignore&outFormat=json&from="+encodeURIComponent(from)+"&to="+encodeURIComponent(to),
-         {crossDomain:true,
-          dataType:"jsonp",
-          success:function(data){
-            for(l in lines){
-              //map.removeLayer(lines[l]);
-            }
-            directionsOnMap(data)
-          }});
-}
-
-function directionsOnMap(data){
-
- /* latlngs = [];
-  for(i =0; i <data.route.shape.shapePoints.length; i +=2){
-    latlngs.push(new L.LatLng(data.route.shape.shapePoints[i], data.route.shape.shapePoints[i+1]));
-  }
-  lastpath = data.route.shape.shapePoints;
-  start = data.route.locations[0].latLng
-  // create a red polyline from an arrays of LatLng points
-  line = new L.Polyline(latlngs, {color: 'blue'});
-*/
-  // zoom the map to the polyline
-  //map.fitBounds(new L.LatLngBounds(latlngs));
-
-  // add the polyline to the map
-  //map.addLayer(line);
-}
-
-
 
 
 
