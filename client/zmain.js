@@ -340,7 +340,8 @@ function calcRoute(start, end, user) {
 
   lastEnd[user._id] = end;
   lastStart[user._id] = start;
-  
+  lastMode[user._id] = user.profile.transportationMode;
+
   var request = {
     origin:start,
     destination:end,
