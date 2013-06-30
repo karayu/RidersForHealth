@@ -79,6 +79,7 @@ a:hover {
 }
 #routes div#partystarts{ 
   text-align:center;
+  margin-top: 8px;
 }
 #routes div#partystarts span.time{
   font-weight: bold;
