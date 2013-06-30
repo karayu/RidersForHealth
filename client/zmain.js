@@ -262,9 +262,13 @@ Template.routes.timeLabel = function(){
 
   return "";
 }
+Template.routes.splitemail = function(email){
+  if(email !== undefined)
+    return email.split("@")[0];
+  return "";
+}
 
 Template.routes.userroutes = function(){
-//  debugger
   var userroutes  =UserRoutes.find({})
   return userroutes;
 }
