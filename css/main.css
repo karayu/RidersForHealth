@@ -94,6 +94,7 @@ a:hover {
   background: rgba(255, 255, 255, .95);
   margin-bottom:15px;
   text-align: center;
+  position:relative;
 }
 #routes div#partystarts{ 
   text-align:center;
@@ -137,6 +138,12 @@ a:hover {
 #routes div.route div.transportmode {
   padding-bottom: 20px;
   font-style: italic;
+}
+
+#routes img.avatar{ 
+  position:absolute;
+  left:10px;
+  top:10px;
 }
 
 /* overrides Safari from making the the text field and button round */

@@ -149,7 +149,7 @@ function setupMap(element)
           $elRotate.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
           $elRotate.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
       }
-      if((user.profile)&&(user.profile.trueHeading)){
+      if((user.profile !== undefined )&&(user.profile.trueHeading != undefined)){
         var $elRotate = $('.'+ user._id), degree = user.profile.trueHeading;
         if ($elRotate.length !== 0) {
           rotate(degree);
