@@ -96,8 +96,9 @@ function setupMap(element)
 
       if(shouldcalcRoute(lat+", "+lng, end, user.profile.transportationMode, user)){
         if(markers[user._id] !== undefined)
-          markers[user._id].setMap(null)
-        markers[user._id] = new UserIcon(new google.maps.LatLng(lat, lng), imgUrl, map, "active", user);
+          markers[user_.id].setPosition(new google.maps.LatLng(lat, lng))
+        else
+          markers[user._id] = new UserIcon(new google.maps.LatLng(lat, lng), imgUrl, map, "active", user);
         calcRoute(lat+", "+lng, end, user);
       }
 
