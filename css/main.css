@@ -75,18 +75,27 @@ a:hover {
   min-height:150px;
   width:280px;
   padding:0px;
-  border:solid 1px #999;
   background: rgba(255, 255, 255, .95);
   margin-bottom:15px;
 }
 #routes div#partystarts{ 
   text-align:center;
+  margin-top: 8px;
 }
-
-
+#routes div#partystarts span.time{
+  font-weight: bold;
+  font-size: 48px;
+}
+#routes div#partystarts p{
+  margin-top: 0px;
+}
+#routes div#partystarts h3{
+  margin-bottom: 29px;
+} 
 
 #routes div.route h3{ 
-  background:#ff0000;
+  font-family: 'Enriqueta', 'Open Sans', sans-serif;
+  background:#D43AD0;
   color:#fff;
   margin:0px 0px 15px 0px;
   padding:5px;
