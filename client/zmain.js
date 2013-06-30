@@ -555,6 +555,10 @@ UserIcon.prototype.onAdd = function() {
   panes.overlayLayer.appendChild(div);
 }
 
+UserIcon.prototype.setPosition = function(pos) {
+  this.center_ = pos;
+  this.draw();
+}
 UserIcon.prototype.draw = function() {
 
   // Size and position the overlay. We use a southwest and northeast
