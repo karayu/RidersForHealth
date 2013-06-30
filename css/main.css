@@ -66,6 +66,7 @@ a:hover {
   top:98px;
   bottom:0px;
   z-index:1001;
+  display:none;
 }
 .accounts-dialog{ 
   z-index:1002;
@@ -112,7 +113,6 @@ input {
 
 #addressentry { 
   padding: 10px 0 10px 10px;
-	background: #eee;
 }
 
 #address { 
@@ -124,13 +124,15 @@ input {
 #submitaddress { 
   width:50px;
   height:32px;
+  padding:4px;
   margin-left:5px;
-  background: #FD8E25;
-	border: none;
-	text-transform: uppercase;
-	font-weight: bold;
-	font-size: 16px;
-	padding: 0px;
+  background: #d43ad0;
+  color:#fff;
+  border: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 0px;
 }
 
 #submitaddress:hover {
@@ -167,3 +169,21 @@ input {
 	margin-top: 5px;
 }
 
+div.address{ 
+  position:absolute;
+  top:300px;
+  left:20%;
+  width:60%;
+  background:#fff;
+  margin:auto;
+  z-index:1005;
+  padding: 20px;
+  text-align:center;
+  height:200px;
+
+}
+div.address h2{
+  
+  font-weight:bold;
+  font-size:36px;
+} 
