@@ -179,7 +179,7 @@ function shouldcalcRoute(start, end, user){
 
 
   if(lastStart[user._id]){
-    if(distanceBewteen([lat, lng], [lastStart[user._id].split(",")[0], lastStart[user._id].split(",")[1]]) >500){ 
+    if(distanceBetween([lat, lng], [lastStart[user._id].split(",")[0], lastStart[user._id].split(",")[1]]) >500){ 
       return true
     }else{
       return false
