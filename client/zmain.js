@@ -118,6 +118,8 @@ function setupMap(element)
       lng = user.profile.longitude || "-122.44147";
       
       if(shouldcalcRoute(lat+", "+lng, end, user.profile.transportationMode, user)){
+        if(markers[user._id] !== undefined)
+          markers[user._id].setMap(null)
         markers[user._id] = new UserIcon(new google.maps.LatLng(lat, lng), imgUrl, map, "active");
         calcRoute(lat+", "+lng, end, user);
       }
@@ -264,6 +266,7 @@ function shouldcalcRoute(start, end, mode, user){
 
 
   if(lastStart[user._id]){
+    console.log("distancebetween:", distanceBetween([lat, lng], [lastStart[user._id].split(",")[0], lastStart[user._id].split(",")[1]]))
     if(distanceBetween([lat, lng], [lastStart[user._id].split(",")[0], lastStart[user._id].split(",")[1]]) >500){ 
       return true
     }else{
