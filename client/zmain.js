@@ -105,19 +105,19 @@ function setupMap(element)
         user.profile = {};
 
       var imgUrl = "http://www.gravatar.com/avatar/";
-      if(user.emails){
+      if(user.emails)
         if(user.emails[0].address)
           imgUrl += md5(user.emails[0].address);
 
 
-        lat = user.profile.latitude || "37.76774";
-        lng = user.profile.longitude || "-122.44147";
-
-        if(shouldcalcRoute(lat+", "+lng, end, user)){
-          markers[user._id] = new UserIcon(new google.maps.LatLng(lat, lng), imgUrl, map, "active");
-          calcRoute(lat+", "+lng, end, user);
-        }
+      lat = user.profile.latitude || "37.76774";
+      lng = user.profile.longitude || "-122.44147";
+      
+      if(shouldcalcRoute(lat+", "+lng, end, user)){
+        markers[user._id] = new UserIcon(new google.maps.LatLng(lat, lng), imgUrl, map, "active");
+        calcRoute(lat+", "+lng, end, user);
       }
+      
     });
   });
 
@@ -147,6 +147,9 @@ function setupMap(element)
 
 Template.routes.time = function(){
   return Session.get("maxTime");  
+}
+Template.routes.userroute = function(){
+  return UserRoutes.find()
 }
 
 
@@ -197,6 +200,9 @@ function shouldcalcRoute(start, end, user){
 
 var maxTime;
 
+UserRoutes = new Meteor.Collection("userroutes");
+
+
 function calcRoute(start, end, user) {
 
   function renderDirections(result) {
@@ -215,9 +221,15 @@ function calcRoute(start, end, user) {
       maxTime = result.routes[0].legs[0].duration.value;
       Session.set("maxTime", result.routes[0].legs[0].duration.text)
     }
-      
 
-    Meteor.users.update(user._id, user)
+    userroute = user.profile
+
+
+    UserRoutes.insert(userroute)
+    //Meteor.users.update(user._id, {$set: {distance: user.distance, duration: user.duration}});
+
+
+
     // set the start point that this route is based on.
 
 
