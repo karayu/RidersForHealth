@@ -35,7 +35,7 @@
 
     <div id="partystarts" class="route">
       <h3>Party Starts In</h3>
-      <span class="time">{{time}}</span>
+      <p>{{timeLabel}}</p>
     </div>
 
 
@@ -48,9 +48,11 @@
       <h3 style="background:{{color}}">
         {{email}}
       </h3>
-      <div class="duration">{{duration}}</div>
-      {{transportationMode}}
+
+      - {{durationNumber}} {{durationLabel}} - {{distance}} - {{transportationMode}}
 <!-- 
+      {{_id}}
+
       {{date}}
 
       {{distance}}
@@ -69,7 +71,7 @@
 
       {{altitude}}
 
-      {{speed}} -->
+      {{speed}}  -->
     </div>
 
     {{/each}}
