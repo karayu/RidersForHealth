@@ -192,10 +192,24 @@ function setupMap(element)
         };
         if(endMarker != undefined)
           endMarker.setMap(null);
+
+        var infowindow = new google.maps.InfoWindow({
+            content: "<div class='destination'>" + results[0].formatted_address + "<br /><a href='#'>Change destination</a></div>"
+        });
+
+
         endMarker = new google.maps.Marker({
           position: results[0].geometry.location,
           map: map,
           icon: image
+        });
+        google.maps.event.addListener(endMarker, 'click', function() {
+          infowindow.open(map,endMarker);
+          $("div.destination a").click(function(e){
+            e.preventDefault();
+            $("img#logo").click();
+          })
+
         });
       }
     });
@@ -211,6 +225,7 @@ function setupMap(element)
     $("div.address").fadeIn("fast");
     $("div#routes").fadeOut("fast");
     Session.set("showroutes", "none");
+    Session.set("end", undefined);
   })
 
 

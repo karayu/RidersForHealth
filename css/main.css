@@ -147,6 +147,19 @@ a:hover {
   width: 55px;
 }
 
+.destination {
+margin-top: 11px;
+}
+
+.destination a {
+  color: #D43AD0;
+  text-decoration: underline;
+}
+
+.destination a:hover {
+  color: #FFC145;
+}
+
 /* overrides Safari from making the the text field and button round */
 input {
 	-webkit-appearance: none;
