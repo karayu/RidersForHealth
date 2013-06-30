@@ -207,13 +207,32 @@ function setupMap(element)
 }
 
 Template.routes.time = function(){
-  if(Session.get("maxTime") !== undefined)
-    return Session.get("maxTime").split(" ")[0];  
+  var urs = UserRoutes.find({}).fetch()
+  var maxTime
+  var ur
+  for(u in urs){
+    if((!maxTime) ||(maxTime < urs[u].durationValue)){
+      maxTime = urs[u].durationValue
+      ur = urs[u];
+    }  
+  }
+  if(ur !== undefined)
+    return ur.durationNumber;
   return "";
+
 }
 Template.routes.timeLabel = function(){
-  if((Session.get("maxTime") !== undefined) && (Session.get("maxTime").split(" ").length > 0))
-    return Session.get("maxTime").split(" ")[1];  
+  var urs = UserRoutes.find({}).fetch()
+  var maxTime
+  var ur
+  for(u in urs){
+    if((!maxTime) ||(maxTime < urs[u].durationValue)){
+      maxTime = urs[u].durationValue
+      ur = urs[u];
+    }  
+  }
+  if(ur !== undefined)
+    return ur.durationLabel;
   return "";
 }
 
@@ -295,10 +314,6 @@ function calcRoute(start, end, user) {
     
 
 
-    if((!maxTime) ||(maxTime < result.routes[0].legs[0].duration.value)){
-      maxTime = result.routes[0].legs[0].duration.value;
-      Session.set("maxTime", result.routes[0].legs[0].duration.text)
-    }
 
     
 
@@ -309,6 +324,7 @@ function calcRoute(start, end, user) {
       userroute.distance =result.routes[0].legs[0].distance.text;
       userroute.durationNumber =result.routes[0].legs[0].duration.text.split(" ")[0];
       userroute.durationLabel =result.routes[0].legs[0].duration.text.split(" ")[1];
+      userroute.durationValue =result.routes[0].legs[0].duration.value;
       userroute.color = userColor(user);
       
       UserRoutes.insert(userroute)
@@ -317,14 +333,11 @@ function calcRoute(start, end, user) {
       userroute.distance =result.routes[0].legs[0].distance.text;
       userroute.durationNumber =result.routes[0].legs[0].duration.text.split(" ")[0];
       userroute.durationLabel =result.routes[0].legs[0].duration.text.split(" ")[1];
+      userroute.durationValue =result.routes[0].legs[0].duration.value;
       userroute.color = userColor(user);
       UserRoutes.update(userroute._id, userroute)
     }
-    //Meteor.users.update(user._id, {$set: {distance: user.distance, duration: user.duration}});
 
-
-
-    // set the start point that this route is based on.
 
 
 
