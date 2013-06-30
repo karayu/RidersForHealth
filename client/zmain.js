@@ -6,9 +6,7 @@ var markers = {};
 var lines =[];
 var __defaults = {
   city_name: 'San Francisco',
-  data_url: 'http://data.codeforamerica.org/OHHS/SF/1.2',
-  center: [37.767745, -122.441475],
-  mapquest_key: "Fmjtd|luua2q6and,aa=o5-hzb59"
+  center: [37.767745, -122.441475]
 };
 
 Session.set("routes", undefined)
@@ -72,7 +70,7 @@ function setupMap(element)
   map.mapTypes.set('mapbox', mapBoxMapType);
   map.setMapTypeId('mapbox');
 
-  Session.set("end", "155 9th. st sf")
+  Session.set("end", undefined)
 
   Deps.autorun(function (c) {
     var end = Session.get("end");
@@ -94,7 +92,7 @@ function setupMap(element)
       lat = user.profile.latitude || "37.76774";
       lng = user.profile.longitude || "-122.44147";
 
-      if(shouldcalcRoute(lat+", "+lng, end, user.profile.transportationMode, user)){
+      if((end !== undefined) && (shouldcalcRoute(lat+", "+lng, end, user.profile.transportationMode, user))){
         if(markers[user._id] !== undefined)
           markers[user_.id].setPosition(new google.maps.LatLng(lat, lng))
         else
@@ -127,9 +125,19 @@ function setupMap(element)
     });
   });
 
+
+  var justloggedin = false;
+
   Deps.autorun(function (c) {
     var user = Meteor.user();
     if(user !== null){
+
+      if(!justloggedin){
+        $("div.address").fadeIn("fast");
+        justloggedin = true;
+      }
+        
+        
 
       $("img#logo").attr("src", "meeteeyore_logo_small@2x.png");
       $("img#logo").addClass("pull-left");
@@ -147,7 +155,20 @@ function setupMap(element)
           rotate(degree);
         }
       }
+    }else{
+      $("div.address").hide();
+      justloggedin = false;
+
+      $("img#logo").attr("src", "welcome_eeyore@2x.png");
+      $("img#logo").removeClass("pull-left");
+      $("#subtitle").show();
+      $("img#logo").animate({"width": "350px", "padding": "30px 0px 0px 0px", "margin-top": "0px"}, 500);
+      $("#map").animate({"top": "270px"}, 500);
+
+
     }
+
+
   });
 
   Session.set("showroutes", "none");
@@ -276,7 +297,6 @@ function shouldcalcRoute(start, end, mode, user){
 
 
   if(lastStart[user._id]){
-    console.log("distancebetween:", distanceBetween([lat, lng], [lastStart[user._id].split(",")[0], lastStart[user._id].split(",")[1]]))
     if(distanceBetween([lat, lng], [lastStart[user._id].split(",")[0], lastStart[user._id].split(",")[1]]) >500){
       return true
     }else{
@@ -303,8 +323,16 @@ function calcRoute(start, end, user) {
 
     console.log(result)
 
-
-
+    
+    var imgUrl = "http://www.gravatar.com/avatar/";
+    if(user.emails){
+      if(user.emails[0].address)
+        imgUrl += md5(user.emails[0].address);
+    }else if(user.profile){
+      if(user.profile.email){
+        imgUrl += md5(user.profile.email);
+      }
+    }
 
 
 
@@ -316,6 +344,7 @@ function calcRoute(start, end, user) {
       userroute.durationNumber =result.routes[0].legs[0].duration.text.split(" ")[0];
       userroute.durationLabel =result.routes[0].legs[0].duration.text.split(" ")[1];
       userroute.durationValue =result.routes[0].legs[0].duration.value;
+      userroute.imageUrl = imgUrl;
       userroute.color = userColor(user);
 
       UserRoutes.insert(userroute)
@@ -325,6 +354,7 @@ function calcRoute(start, end, user) {
       userroute.durationNumber =result.routes[0].legs[0].duration.text.split(" ")[0];
       userroute.durationLabel =result.routes[0].legs[0].duration.text.split(" ")[1];
       userroute.durationValue =result.routes[0].legs[0].duration.value;
+      userroute.imageUrl = imgUrl;
       userroute.color = userColor(user);
       UserRoutes.update(userroute._id, userroute)
     }
