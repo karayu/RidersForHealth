@@ -4,12 +4,11 @@ body {
 }
 
 a {
-	color: #FD8E25;
-	font-weight: bold;
+	color: #fff;
 }
 
 a:hover {
-	color: #FFC145;
+	color: #D821D6;
 }
 
 .navbar-inner {
@@ -17,6 +16,7 @@ a:hover {
 }
 
 #welcome img {
+  clear: both;
   width: 350px;
   padding: 30px 0px 0px;
   margin: 0 auto;
@@ -27,12 +27,12 @@ a:hover {
   color: #fff;
   font-size: 18px;
   text-align: center;
-  padding-bottom: 30px;
+  padding-bottom: 60px;
 }
 
 #map { 
   position:absolute;
-  top:240px;
+  top:270px;
   bottom:0px;
   left:0px;
   right:0px;
