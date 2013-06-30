@@ -144,6 +144,7 @@ a:hover {
   position:absolute;
   left:10px;
   top:10px;
+  width: 55px;
 }
 
 /* overrides Safari from making the the text field and button round */
