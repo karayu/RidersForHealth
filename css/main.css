@@ -53,11 +53,12 @@ a:hover {
 .arrow-up {
   width: 0; 
   height: 0;
-  left: 20px;
-  //top: -20px;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 45px solid black;
+  left: 8px;
+  top: 74px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 20px solid red;
+  //z-index: -999;
 }
 
 .user-icon{ 
