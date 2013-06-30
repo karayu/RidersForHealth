@@ -101,6 +101,18 @@ function setupMap(element)
       }
 
 
+      function rotate(degree) {
+          $elRotate.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
+          $elRotate.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
+      }
+      console.log('autorun rotate', degree);
+      if((user.profile !== undefined )&&(user.profile.trueHeading != undefined)){
+        var $elRotate = $('.' + user._id), degree = user.profile.trueHeading;
+        console.log('autorun rotate', $elRotate);
+        if ($elRotate.length !== 0) {
+          rotate(degree);
+        }
+      }
 
 
       foundRoute =  UserRoutes.find({userid:user._id}).fetch()
@@ -130,14 +142,13 @@ function setupMap(element)
 
   Deps.autorun(function (c) {
     var user = Meteor.user();
-    if((user !== null) && (user !== undefined)){
+    console.log('autorun for rotate', user);
+    if(user !== undefined){
 
       if(!justloggedin){
         $("div.address").fadeIn("fast");
         justloggedin = true;
       }
-
-
 
       $("img#logo").attr("src", "meeteeyore_logo_small@2x.png");
       $("img#logo").addClass("pull-left");
@@ -149,8 +160,12 @@ function setupMap(element)
           $elRotate.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
           $elRotate.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
       }
+
+      console.log('autorun rotate', degree);
+
       if((user.profile !== undefined )&&(user.profile.trueHeading != undefined)){
-        var $elRotate = $('.'+ user._id), degree = user.profile.trueHeading;
+        var $elRotate = $('.' + user._id), degree = user.profile.trueHeading;
+        console.log('autorun rotate', $elRotate);
         if ($elRotate.length !== 0) {
           rotate(degree);
         }
@@ -552,7 +567,7 @@ UserIcon.prototype.onAdd = function() {
   $(arrow).addClass(this.user._id);
 
   var compassCircle = document.createElement("img");
-  //img.src = this.image_;
+  img.src = this.image_;
   compassCircle.style.width = 20 + "px";
   compassCircle.style.height = 20 + "px";
   compassCircle.style.top = -100 + "px";
