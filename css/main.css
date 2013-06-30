@@ -83,6 +83,7 @@ a:hover {
   padding:0px;
   background: rgba(255, 255, 255, .95);
   margin-bottom:15px;
+  text-align: center;
 }
 #routes div#partystarts{ 
   text-align:center;
@@ -111,11 +112,10 @@ a:hover {
 #routes div.route div.duration{
   font-size:42px;
   font-weight:bold;
-  text-align: center;
 } 
 
 #routes div.route div.duration {
-  margin: 30px auto;
+  margin-top: 30px;
 }
 
 /* overrides Safari from making the the text field and button round */
