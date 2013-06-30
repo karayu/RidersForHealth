@@ -1,6 +1,6 @@
 
 if (Meteor.isClient) {
-  Template.dashboard.users = function() {
+  Template.routes.users = function() {
     return Meteor.users.find();
   }
 }

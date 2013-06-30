@@ -6,22 +6,12 @@
 
 <body>
   {{> header}}
-  {{> dashboard}}
   {{> map}}
   {{> routes}}
 </body>
 
 <template name="map">
   <div id="map"></div>
-</template>
-
-<template name="routes">
-  <div id="routes">
-    <span>  Routes</span>
-    {{#each routes}}
-      <div><span style="color:{{color}}">{{name}}</span> - {{duration}} - {{distance}} - {{transitType}}</div>
-    {{/each}}
-  </div>
 </template>
 
 
@@ -36,53 +26,43 @@
 </div>
 </template>
 
-<template name="dashboard">
-    <table>
-    <tr>
-        <th>id</th>
-        <th>date</th>
-        <th>lat</th>
-        <th>lon</th>
-        <th>horiz accuracy</th>
-        <th>true heading</th>
-        <th>mag heading</th>
-        <th>heading accuracy</th>
-        <th>altitude</th>
-        <th>speed</th>
-    </tr>
+<template name="routes">
+  <div id="routes">
+    
     {{#each users}}
-    <tr>
-    <td>
+
+
+    {{#if emails}}
+    <div><span style="color:{{color}}">
+
+        {{#each emails}}
+        {{address}}
+        {{/each}}
+        
+      </span> - {{duration}} - {{distance}} - {{transitType}}</div>
+
+
+    
     {{_id}}
-    </td>
-    <td>
+
     {{profile.date}}
-    </td>
-    <td>
+
     {{profile.latitude}}
-    </td>
-    <td>
+
     {{profile.longitude}}
-    </td>
-    <td>
+
     {{profile.horizontalAccuracy}}
-    </td>
-    <td>
+
     {{profile.trueHeading}}
-    </td>
-    <td>
+
     {{profile.magneticHeading}}
-    </td>
-    <td>
+
     {{profile.headingAccuracy}}
-    </td>
-    <td>
+
     {{profile.altitude}}
-    </td>
-    <td>
+
     {{profile.speed}}
-    </td>
-    </tr>
+    {{/if}}
     {{/each}}
-    </table>
+
 </template>

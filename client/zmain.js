@@ -2,7 +2,7 @@ var map;
 var directionsDisplay;
 var directionsService;
 
-var markers = [];
+var markers = {};
 var lines =[];
 var __defaults = {
   city_name: 'San Francisco',
@@ -95,11 +95,24 @@ function setupMap(element)
   map.mapTypes.set('mapbox', mapBoxMapType);
   map.setMapTypeId('mapbox');
 
-  var srcImage = 'https://si0.twimg.com/profile_images/3426163869/d60b7bbc8556852954563055ed2c1727_bigger.jpeg';
-  overlay = new UserIcon(map.getCenter(), srcImage, map, "active");
 
-  calcRoute("37.767745, -122.441475", "155 9th st. sf", google.maps.TravelMode.WALKING)
-  calcRoute("1461 alice st. oakland, ca", "155 9th st. sf", google.maps.TravelMode.DRIVING)
+  Deps.autorun(function (c) {
+    Meteor.users.find().forEach(function (user) {
+      
+      if(!user.profile)
+        user.profile = {};
+
+      var imgUrl = "http://www.gravatar.com/avatar/";
+      if(user.emails){
+        if(user.emails[0].address)
+          imgUrl += md5(user.emails[0].address);
+      
+        markers[user._id] = new UserIcon(new google.maps.LatLng("37.767745", "-122.441475"), imgUrl, map, "active");
+        calcRoute("37.767745, -122.441475", "155 9th st. sf", user);
+      }
+    });
+  });
+
 
 }
 
@@ -108,14 +121,14 @@ colorCount =0;
 
 
 
+var directions = {};
 
+function shouldcalcRoute(start, end, user){
+  // figure out if we should update...
+  
+}
 
-Template.routes.routes = function () {
-
-  return Session.get("routes");
-};
-
-function calcRoute(start, end) {
+function calcRoute(start, end, user) {
 
   function renderDirections(result) {
     var directionsRenderer = new google.maps.DirectionsRenderer({polylineOptions: {strokeColor: colors[colorCount]},
@@ -126,28 +139,31 @@ function calcRoute(start, end) {
 
     console.log(result)
     
-    routes = Session.get("routes");
-    if(!routes)
-      routes =[];
-    routes.push({name: "Eeyore", 
-                 distance:result.routes[0].legs[0].distance.text,
-                 duration: result.routes[0].legs[0].duration.text,
-                 transitType: "walking"
-                });
-    Session.set("routes", routes);
+    user.profile.distance =result.routes[0].legs[0].distance.text;
+    user.profile.duration =result.routes[0].legs[0].duration.text;
 
+    // set the start point that this route is based on.
+
+
+
+    if(directions[user._id])
+      directions[user._id].setMap(null);
+
+    directions[user._id] = directionsRenderer;
 
   }
+
+  if(!user.profile.transportationMode)
+    user.profile = {transportationMode:"walking"};
 
   var request = {
     origin:start,
     destination:end,
-    travelMode: google.maps.TravelMode.DRIVING
+    travelMode: google.maps.TravelMode[user.profile.transportationMode.toUpperCase()]
   };
   directionsService.route(request, function(result, status) {
     if (status == google.maps.DirectionsStatus.OK) {
       renderDirections(result)
-
     }
   });
 
