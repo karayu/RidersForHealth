@@ -165,6 +165,32 @@ function setupMap(element)
   $("form#addressentry").submit(function(e){
     e.preventDefault();
     Session.set("end", $("input#address").val());
+
+
+    geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': $("input#address").val()}, function(results, status) {
+
+      if (status == google.maps.GeocoderStatus.OK) {
+        var image = {
+          url: 'marker_@1x.png',
+          // This marker is 20 pixels wide by 32 pixels tall.
+          size: new google.maps.Size(39, 63),
+          // The origin for this image is 0,0.
+          origin: new google.maps.Point(0,0),
+          // The anchor for this image is the base of the flagpole at 0,32.
+          anchor: new google.maps.Point(0, 63)
+        };
+        if(endMarker != undefined)
+          endMarker.setMap(null);
+        endMarker = new google.maps.Marker({
+          position: results[0].geometry.location,
+          map: map,
+          icon: image
+        });
+      }
+    });
+
+
     $("div.address").fadeOut("fast");
     $("div#routes").fadeIn("fast");
     Session.set("showroutes", "block");
@@ -186,7 +212,7 @@ Template.routes.showroutes = function(){
   return Session.get("showroutes")
 }
 
-
+var endMarker
 var colors = ["#ff0000", "#00ff00", "#0000ff"];
 colorCount =0;
 
