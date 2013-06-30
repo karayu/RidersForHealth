@@ -95,8 +95,10 @@ function setupMap(element)
   map.mapTypes.set('mapbox', mapBoxMapType);
   map.setMapTypeId('mapbox');
 
+  Session.set("end", "155 9th. st sf")
 
   Deps.autorun(function (c) {
+    var end = Session.get("end");
     Meteor.users.find().forEach(function (user) {
       
       if(!user.profile)
@@ -108,10 +110,23 @@ function setupMap(element)
           imgUrl += md5(user.emails[0].address);
       
         markers[user._id] = new UserIcon(new google.maps.LatLng("37.767745", "-122.441475"), imgUrl, map, "active");
-        calcRoute("37.767745, -122.441475", "155 9th st. sf", user);
+        calcRoute("37.767745, -122.441475", end, user);
       }
     });
   });
+
+  Deps.autorun(function (c) {
+    var user = Meteor.user();
+    if(user !== null){
+
+      $("img#logo").attr("src", "meeteeyore_logo_small@2x.png");
+      $("img#logo").addClass("pull-left");
+      $("#subtitle").hide();
+      $("img#logo").animate({"width": "188px", "padding": "0px 0px 20px 0px"}, 500);
+      $("#map").animate({"top": "110px"}, 500);
+    }
+  });
+
 
 
 }
@@ -119,19 +134,52 @@ function setupMap(element)
 var colors = ["#ff0000", "#00ff00", "#0000ff"];
 colorCount =0;
 
-
-
 var directions = {};
+
+
+lastStart = {};
+lastEnd = {};
+
+
+userColors = {};
+
+function userColor(user){
+
+  if(userColors[user._id])
+    return userColors[user._id]
+  else{
+    return userColors[user._id] = colors[colorCount];
+    colorCount+=1;
+  }
+}
+
 
 function shouldcalcRoute(start, end, user){
   // figure out if we should update...
   
+  if(lastEnd[user._id] !== end)
+    return true;
+
+  lat = start.split(",")[0]
+  lng = start.split(",")[1]
+
+
+  if(lastStart[user._id]){
+    if(distanceBewteen([lat, lng], [lastStart[user._id].split(",")[0], lastStart[user._id].split(",")[1]]) >500){ 
+      return true
+    }else{
+      return false
+    }
+  }else{
+    return true;
+  }
+
 }
 
 function calcRoute(start, end, user) {
 
   function renderDirections(result) {
-    var directionsRenderer = new google.maps.DirectionsRenderer({polylineOptions: {strokeColor: colors[colorCount]},
+    var directionsRenderer = new google.maps.DirectionsRenderer({polylineOptions: {strokeColor: userColor(user)},
                                                                  suppressMarkers: true});
     colorCount+=1;
     directionsRenderer.setMap(map);
@@ -142,6 +190,7 @@ function calcRoute(start, end, user) {
     user.profile.distance =result.routes[0].legs[0].distance.text;
     user.profile.duration =result.routes[0].legs[0].duration.text;
 
+    Meteor.users.update(user._id, user)
     // set the start point that this route is based on.
 
 
@@ -156,6 +205,9 @@ function calcRoute(start, end, user) {
   if(!user.profile.transportationMode)
     user.profile = {transportationMode:"walking"};
 
+  lastEnd[user._id] = end;
+  lastStart[user._id] = start;
+  
   var request = {
     origin:start,
     destination:end,

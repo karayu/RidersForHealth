@@ -14,7 +14,9 @@ a:hover {
 .navbar-inner {
   background: #101010;
 }
-
+#login-buttons{ 
+  margin-top:10px;
+}
 #welcome img {
   clear: both;
   width: 350px;
@@ -60,22 +62,39 @@ a:hover {
 #routes{ 
   position:absolute;
   right:10px;
-  width:250px;
-  top:60px;
+  width:300px;
+  top:120px;
   bottom:0px;
   z-index:1001;
 }
 .accounts-dialog{ 
   z-index:1002;
-
 }
 #routes div.route{ 
   min-height:150px;
-  width:250px;
+  width:280px;
+  padding:0px;
   border:solid 1px #999;
-  background: rgba(25, 25, 25, .3);
+  background: rgba(255, 255, 255, .95);
+  margin-bottom:15px;
+}
+#routes div#partystarts{ 
+  text-align:center;
 }
 
+
+
+#routes div.route h3{ 
+  background:#ff0000;
+  color:#fff;
+  margin:0px 0px 15px 0px;
+  padding:5px;
+  font-weight:bold;
+  text-transform:uppercase;
+}
+#routes div.route span.time{
+  font-size:42px;
+} 
 
 /* overrides Safari from making the the text field and button round */
 input {

@@ -22,48 +22,59 @@
     <div class="pull-right">
       {{ loginButtons align="right" }}
     </div>
-    <a href="#"><img src="welcome_eeyore@2x.png"/></a>
-    <p>Stalking all your friends since 2013</p>
+    <a href="#"><img id="logo" src="welcome_eeyore@2x.png"/></a>
+    <p id="subtitle">Stalking all your friends since 2013</p>
   </div>
 </div>
 </template>
 
 <template name="routes">
   <div id="routes">
+
+    <div id="partystarts" class="route">
+      <h3>Party Starts In</h3>
+      <span class="time">20</span>
+      <p>MINS</p>
+    </div>
+
+
     
     {{#each users}}
 
 
     {{#if emails}}
-    <div><span style="color:{{color}}">
+    <div class="route">
+      <h3>
 
         {{#each emails}}
         {{address}}
         {{/each}}
         
-      </span> - {{duration}} - {{distance}} - {{transitType}}</div>
+      </h3>
 
 
-    
-    {{_id}}
+      - {{duration}} - {{distance}} - {{transitType}}
 
-    {{profile.date}}
+      {{_id}}
 
-    {{profile.latitude}}
+      {{profile.date}}
 
-    {{profile.longitude}}
+      {{profile.latitude}}
 
-    {{profile.horizontalAccuracy}}
+      {{profile.longitude}}
 
-    {{profile.trueHeading}}
+      {{profile.horizontalAccuracy}}
 
-    {{profile.magneticHeading}}
+      {{profile.trueHeading}}
 
-    {{profile.headingAccuracy}}
+      {{profile.magneticHeading}}
 
-    {{profile.altitude}}
+      {{profile.headingAccuracy}}
 
-    {{profile.speed}}
+      {{profile.altitude}}
+
+      {{profile.speed}}
+      </div>
     {{/if}}
     {{/each}}
 
