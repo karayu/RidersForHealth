@@ -111,20 +111,24 @@ img[src*="iws3.png"] {
 #routes div#partystarts p{
   margin-top: 0px;
 }
-#routes div#partystarts h3{
-  margin-bottom: 29px;
+#routes div#partystarts.route h3{
+  margin-bottom: 27px;
+  padding: 5px;
 } 
 
 #routes div.route h3{ 
   font-family: 'Enriqueta', 'Open Sans', sans-serif;
   background:#D43AD0;
   color:#fff;
-  margin:0px 0px 15px 0px;
   padding:5px;
   font-weight:bold;
   text-transform:uppercase;
   height: 41px;
 }
+#routes div.route h3.email {
+  padding: 7px 5px 5px 41px;
+}
+
 #routes div.route span.time,
 #routes div.route div.duration{
   font-size:42px;
