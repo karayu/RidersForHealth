@@ -1,8 +1,4 @@
-html,
-button,
-input,
-select,
-textarea {
+body {
 	font-family: 'Open Sans', sans-serif;
   color: #101010;
 }
