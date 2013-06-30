@@ -246,7 +246,7 @@ Template.routes.showroutes = function(){
 }
 
 var endMarker
-var colors = ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"];
+var colors = ["#6ACAC3", "#4796EF", "#f7aa4e", "#F59331", "#ec008c", "#fff200"];
 colorCount =0;
 
 var directions = {};
