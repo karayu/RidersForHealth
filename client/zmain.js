@@ -122,6 +122,30 @@ function setupMap(element)
         calcRoute(lat+", "+lng, end, user);
       }
       
+
+
+
+      foundRoute =  UserRoutes.find({userid:user._id}).fetch()
+      if(foundRoute.length === 0){
+        userroute = user.profile
+        userroute.userid = user._id
+        userroute.color = userColor(user);
+        userroute.duration = "a"
+        userroute.distance = "b"
+        
+        UserRoutes.insert(userroute)
+      }else{
+       
+        ur = foundRoute[0]
+        for(k in user.profile){
+          ur[k] = user.profile[k];
+        }
+        UserRoutes.update(ur._id, ur)
+
+
+      }
+
+      
     });
   });
 
@@ -154,7 +178,9 @@ Template.routes.time = function(){
   return Session.get("maxTime");  
 }
 Template.routes.userroutes = function(){
-  return UserRoutes.find()
+//  debugger
+  var userroutes  =UserRoutes.find({})
+  return userroutes;
 }
 Template.routes.showroutes = function(){
   return Session.get("showroutes")
@@ -222,8 +248,6 @@ function calcRoute(start, end, user) {
 
     console.log(result)
     
-    user.profile.distance =result.routes[0].legs[0].distance.text;
-    user.profile.duration =result.routes[0].legs[0].duration.text;
 
 
     if((!maxTime) ||(maxTime < result.routes[0].legs[0].duration.value)){
@@ -231,15 +255,24 @@ function calcRoute(start, end, user) {
       Session.set("maxTime", result.routes[0].legs[0].duration.text)
     }
 
-    userroute = user.profile
-    userroute.userid = user._id
-    userroute.color = userColor(user);
+    
 
-    foundRoute =  UserRoutes.find({userid:userroute.userid})
-    if(foundRoute.fetch().length === 0)
+    foundRoute =  UserRoutes.find({userid:user._id}).fetch()
+    if(foundRoute.length === 0){
+      userroute = user.profile
+      userroute.userid = user._id;
+      userroute.distance =result.routes[0].legs[0].distance.text;
+      userroute.duration =result.routes[0].legs[0].duration.text;
+      userroute.color = userColor(user);
+      
       UserRoutes.insert(userroute)
-    else
-      UserRoutes.update(foundRoute._id, userroute)
+    }else{
+      userroute = foundRoute[0];
+      userroute.distance =result.routes[0].legs[0].distance.text;
+      userroute.duration =result.routes[0].legs[0].duration.text;
+      userroute.color = userColor(user);
+      UserRoutes.update(userroute._id, userroute)
+    }
     //Meteor.users.update(user._id, {$set: {distance: user.distance, duration: user.duration}});
 
 
