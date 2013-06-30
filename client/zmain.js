@@ -130,7 +130,7 @@ function setupMap(element)
 
   Deps.autorun(function (c) {
     var user = Meteor.user();
-    if(user !== null){
+    if((user !== null) && (user !== undefined)){
 
       if(!justloggedin){
         $("div.address").fadeIn("fast");
