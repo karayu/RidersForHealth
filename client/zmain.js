@@ -136,8 +136,8 @@ function setupMap(element)
         $("div.address").fadeIn("fast");
         justloggedin = true;
       }
-        
-        
+
+
 
       $("img#logo").attr("src", "meeteeyore_logo_small@2x.png");
       $("img#logo").addClass("pull-left");
@@ -342,7 +342,7 @@ function calcRoute(start, end, user) {
 
     console.log(result)
 
-    
+
     var imgUrl = "http://www.gravatar.com/avatar/";
     if(user.emails){
       if(user.emails[0].address)
@@ -437,7 +437,7 @@ function prettyDate(time){
 }
 
 Template.map.rendered =  function(){
-  setupMap('map');  
+  setupMap('map');
 }
 
 
@@ -552,7 +552,7 @@ UserIcon.prototype.onAdd = function() {
   $(arrow).addClass(this.user._id);
 
   var compassCircle = document.createElement("img");
-  img.src = this.image_;
+  //img.src = this.image_;
   compassCircle.style.width = 20 + "px";
   compassCircle.style.height = 20 + "px";
   compassCircle.style.top = -100 + "px";
