@@ -17,6 +17,10 @@ a:hover {
 	color: #D821D6;
 }
 
+img[src*="iws3.png"] {
+    display: none;
+}
+
 .navbar-inner {
   background: #101010;
 }
