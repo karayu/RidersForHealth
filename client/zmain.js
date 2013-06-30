@@ -532,11 +532,6 @@ UserIcon.prototype.onAdd = function() {
   div.style.position = "absolute";
   $(div).addClass("user-icon");
 
-  var arrow = document.createElement('div');
-  arrow.style.position = "absolute";
-  $(arrow).addClass("arrow-up");
-  $(arrow).addClass(this.user._id);
-  div.appendChild(arrow);
 
   // Create an IMG element and attach it to the DIV.
   var img = document.createElement("img");
@@ -545,6 +540,25 @@ UserIcon.prototype.onAdd = function() {
   img.style.height = this.size + "px";
   $(img).addClass("img-circle");
   div.appendChild(img);
+
+  var arrow = document.createElement('div');
+  arrow.style.position = "absolute";
+  $(arrow).addClass("arrow-up");
+  $(arrow).addClass(this.user._id);
+
+  var compassCircle = document.createElement("img");
+  img.src = this.image_;
+  compassCircle.style.width = 20 + "px";
+  compassCircle.style.height = 20 + "px";
+  compassCircle.style.top = -100 + "px";
+  compassCircle.style.left = 300 + "px";
+  compassCircle.style.border = "solid 3px white";
+  compassCircle.style.background = "white";
+  compassCircle.style['z-index'] = 1000;
+  $(compassCircle).addClass("img-circle");
+
+  div.appendChild(arrow);
+  div.appendChild(compassCircle);
 
   // Set the overlay's div_ property to this DIV
   this.div_ = div;
