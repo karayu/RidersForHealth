@@ -1,7 +1,8 @@
 
 <head>
-
-  <title>meteor_app</title>
+  <title>Meeteeyore</title>
+  <link href='http://fonts.googleapis.com/css?family=Enriqueta:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -16,12 +17,13 @@
 
 
 <template name="header">
-<div class="navbar">
+<div id="welcome" class="navbar">
   <div class="navbar-inner">
-    <a class="brand" href="#">Friends with Moves</a>
     <div class="pull-right">
       {{ loginButtons align="right" }}
     </div>
+    <a href="#"><img src="welcome_eeyore@2x.png"/></a>
+    <p>Stalking all your friends since 2013</p>
   </div>
 </div>
 </template>
