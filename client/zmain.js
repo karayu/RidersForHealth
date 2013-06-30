@@ -194,6 +194,12 @@ function setupMap(element)
     Session.set("showroutes", "block");
   });
 
+  $("img#logo").click(function(e){
+    e.preventDefault();
+    $("div.address").fadeIn("fast");
+    $("div#routes").fadeOut("fast");
+    Session.set("showroutes", "none");
+  })
 
 
 }
