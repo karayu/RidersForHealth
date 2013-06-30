@@ -130,8 +130,6 @@ function setupMap(element)
         userroute = user.profile
         userroute.userid = user._id
         userroute.color = userColor(user);
-        userroute.duration = "a"
-        userroute.distance = "b"
 
         UserRoutes.insert(userroute)
       }else{
@@ -201,8 +199,16 @@ function setupMap(element)
 }
 
 Template.routes.time = function(){
-  return Session.get("maxTime");  
+  if(Session.get("maxTime") !== undefined)
+    return Session.get("maxTime").split(" ")[0];  
+  return "";
 }
+Template.routes.timeLabel = function(){
+  if((Session.get("maxTime") !== undefined) && (Session.get("maxTime").split(" ").length > 0))
+    return Session.get("maxTime").split(" ")[1];  
+  return "";
+}
+
 Template.routes.userroutes = function(){
 //  debugger
   var userroutes  =UserRoutes.find({})
@@ -213,7 +219,7 @@ Template.routes.showroutes = function(){
 }
 
 var endMarker
-var colors = ["#ff0000", "#00ff00", "#0000ff"];
+var colors = ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"];
 colorCount =0;
 
 var directions = {};
@@ -292,14 +298,16 @@ function calcRoute(start, end, user) {
       userroute = user.profile
       userroute.userid = user._id;
       userroute.distance =result.routes[0].legs[0].distance.text;
-      userroute.duration =result.routes[0].legs[0].duration.text;
+      userroute.durationNumber =result.routes[0].legs[0].duration.text.split(" ")[0];
+      userroute.durationLabel =result.routes[0].legs[0].duration.text.split(" ")[1];
       userroute.color = userColor(user);
       
       UserRoutes.insert(userroute)
     }else{
       userroute = foundRoute[0];
       userroute.distance =result.routes[0].legs[0].distance.text;
-      userroute.duration =result.routes[0].legs[0].duration.text;
+      userroute.durationNumber =result.routes[0].legs[0].duration.text.split(" ")[0];
+      userroute.durationLabel =result.routes[0].legs[0].duration.text.split(" ")[1];
       userroute.color = userColor(user);
       UserRoutes.update(userroute._id, userroute)
     }
