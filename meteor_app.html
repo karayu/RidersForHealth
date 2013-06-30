@@ -41,15 +41,13 @@
 
 
     
-    {{#each users}}
+    {{#each userroutes}}
 
 
-    {{#if emails}}
+
     <div class="route">
       <h3 style="background:{{profile.color}}">
-        {{#each emails}}
-        {{address}}
-        {{/each}}
+        {{profile.email}}
       </h3>
 
 
@@ -74,8 +72,8 @@
       {{profile.altitude}}
 
       {{profile.speed}}
-      </div>
-    {{/if}}
+    </div>
+
     {{/each}}
 
 </template>

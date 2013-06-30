@@ -105,10 +105,14 @@ function setupMap(element)
         user.profile = {};
 
       var imgUrl = "http://www.gravatar.com/avatar/";
-      if(user.emails)
+      if(user.emails){
         if(user.emails[0].address)
           imgUrl += md5(user.emails[0].address);
-
+      }else if(user.profile){
+        if(user.profile.email){
+          imgUrl += md5(user.profile.email);
+        }
+      }
 
       lat = user.profile.latitude || "37.76774";
       lng = user.profile.longitude || "-122.44147";
@@ -148,7 +152,7 @@ function setupMap(element)
 Template.routes.time = function(){
   return Session.get("maxTime");  
 }
-Template.routes.userroute = function(){
+Template.routes.userroutes = function(){
   return UserRoutes.find()
 }
 
@@ -200,7 +204,7 @@ function shouldcalcRoute(start, end, user){
 
 var maxTime;
 
-UserRoutes = new Meteor.Collection("userroutes");
+
 
 
 function calcRoute(start, end, user) {
@@ -223,9 +227,13 @@ function calcRoute(start, end, user) {
     }
 
     userroute = user.profile
+    userroute.userid = user._id
 
-
-    UserRoutes.insert(userroute)
+    foundRoute =  UserRoutes.find({userid:userroute.userid})
+    if(foundRoute.fetch().length === 0)
+      UserRoutes.insert(userroute)
+    else
+      UserRoutes.update(foundRoute._id, userroute)
     //Meteor.users.update(user._id, {$set: {distance: user.distance, duration: user.duration}});
 
 
