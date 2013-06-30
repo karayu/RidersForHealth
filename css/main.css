@@ -2,7 +2,9 @@ html,
 button,
 input,
 select,
-textarea {
+textarea,
+span,
+div {
 	font-family: 'Open Sans', sans-serif;
   color: #101010;
 }
@@ -105,9 +107,16 @@ a:hover {
   font-weight:bold;
   text-transform:uppercase;
 }
-#routes div.route span.time{
+#routes div.route span.time,
+#routes div.route div.duration{
   font-size:42px;
+  font-weight:bold;
+  text-align: center;
 } 
+
+#routes div.route div.duration {
+  margin: 30px auto;
+}
 
 /* overrides Safari from making the the text field and button round */
 input {
@@ -190,3 +199,4 @@ div.address h2{
   font-weight:bold;
   font-size:36px;
 } 
+
