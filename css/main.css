@@ -63,7 +63,7 @@ a:hover {
   position:absolute;
   right:10px;
   width:300px;
-  top:120px;
+  top:98px;
   bottom:0px;
   z-index:1001;
 }
@@ -79,7 +79,6 @@ a:hover {
 }
 #routes div#partystarts{ 
   text-align:center;
-  margin-top: 8px;
 }
 #routes div#partystarts span.time{
   font-weight: bold;

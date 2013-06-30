@@ -122,8 +122,8 @@ function setupMap(element)
       $("img#logo").attr("src", "meeteeyore_logo_small@2x.png");
       $("img#logo").addClass("pull-left");
       $("#subtitle").hide();
-      $("img#logo").animate({"width": "188px", "padding": "0px 0px 20px 0px"}, 500);
-      $("#map").animate({"top": "110px"}, 500);
+      $("img#logo").animate({"width": "150px", "padding": "0px 0px 20px 0px", "margin-top": "-16px"}, 500);
+      $("#map").animate({"top": "80px"}, 500);
     }
   });
 
