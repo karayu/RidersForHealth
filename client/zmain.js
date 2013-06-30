@@ -133,6 +133,7 @@ function setupMap(element)
     }
   });
 
+
   $("form#addressentry").submit(function(e){
     e.preventDefault();
     Session.set("end", $("input#address").val());
@@ -143,6 +144,11 @@ function setupMap(element)
 
 
 }
+
+Template.routes.time = function(){
+  return Session.get("maxTime");  
+}
+
 
 var colors = ["#ff0000", "#00ff00", "#0000ff"];
 colorCount =0;
@@ -189,12 +195,13 @@ function shouldcalcRoute(start, end, user){
 
 }
 
+var maxTime;
+
 function calcRoute(start, end, user) {
 
   function renderDirections(result) {
     var directionsRenderer = new google.maps.DirectionsRenderer({polylineOptions: {strokeColor: userColor(user)},
                                                                  suppressMarkers: true});
-    colorCount+=1;
     directionsRenderer.setMap(map);
     directionsRenderer.setDirections(result);
 
@@ -202,6 +209,13 @@ function calcRoute(start, end, user) {
     
     user.profile.distance =result.routes[0].legs[0].distance.text;
     user.profile.duration =result.routes[0].legs[0].duration.text;
+
+
+    if((!maxTime) ||(maxTime < result.routes[0].legs[0].duration.value)){
+      maxTime = result.routes[0].legs[0].duration.value;
+      Session.set("maxTime", result.routes[0].legs[0].duration.text)
+    }
+      
 
     Meteor.users.update(user._id, user)
     // set the start point that this route is based on.
