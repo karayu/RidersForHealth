@@ -94,7 +94,7 @@ function setupMap(element)
 
       if((end !== undefined) && (shouldcalcRoute(lat+", "+lng, end, user.profile.transportationMode, user))){
         if(markers[user._id] !== undefined)
-          markers[user_.id].setPosition(new google.maps.LatLng(lat, lng))
+          markers[user._id].setPosition(new google.maps.LatLng(lat, lng))
         else
           markers[user._id] = new UserIcon(new google.maps.LatLng(lat, lng), imgUrl, map, "active", user);
         calcRoute(lat+", "+lng, end, user);
@@ -108,7 +108,7 @@ function setupMap(element)
         userroute = user.profile
         userroute.userid = user._id
         userroute.color = userColor(user);
-
+        userroute._id = user._id;
         UserRoutes.insert(userroute)
       }else{
 
@@ -355,6 +355,7 @@ function calcRoute(start, end, user) {
     if(foundRoute.length === 0){
       userroute = user.profile
       userroute.userid = user._id;
+      userroute._id = user._id;
       userroute.distance =result.routes[0].legs[0].distance.text;
       userroute.durationNumber =result.routes[0].legs[0].duration.text.split(" ")[0];
       userroute.durationLabel =result.routes[0].legs[0].duration.text.split(" ")[1];
