@@ -100,7 +100,7 @@ function setupMap(element)
   Deps.autorun(function (c) {
     var end = Session.get("end");
     Meteor.users.find().forEach(function (user) {
-      
+
       if(!user.profile)
         user.profile = {};
 
@@ -116,14 +116,14 @@ function setupMap(element)
 
       lat = user.profile.latitude || "37.76774";
       lng = user.profile.longitude || "-122.44147";
-      
+
       if(shouldcalcRoute(lat+", "+lng, end, user.profile.transportationMode, user)){
         if(markers[user._id] !== undefined)
           markers[user._id].setMap(null)
-        markers[user._id] = new UserIcon(new google.maps.LatLng(lat, lng), imgUrl, map, "active");
+        markers[user._id] = new UserIcon(new google.maps.LatLng(lat, lng), imgUrl, map, "active", user);
         calcRoute(lat+", "+lng, end, user);
       }
-      
+
 
 
 
@@ -135,7 +135,7 @@ function setupMap(element)
 
         UserRoutes.insert(userroute)
       }else{
-       
+
         ur = foundRoute[0]
         for(k in user.profile){
           ur[k] = user.profile[k];
@@ -145,7 +145,7 @@ function setupMap(element)
 
       }
 
-      
+
     });
   });
 
@@ -158,6 +158,15 @@ function setupMap(element)
       $("#subtitle").hide();
       $("img#logo").animate({"width": "150px", "padding": "0px 0px 20px 0px", "margin-top": "-16px"}, 500);
       $("#map").animate({"top": "80px"}, 500);
+
+      function rotate(degree) {
+          $elRotate.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
+          $elRotate.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
+      }
+      var $elRotate = $('.'+ user._id), degree = user.profile.trueHeading;
+      if ($elRotate.length !== 0) {
+          rotate(degree);
+      }
     }
   });
 
@@ -214,10 +223,11 @@ Template.routes.time = function(){
     if((!maxTime) ||(maxTime < urs[u].durationValue)){
       maxTime = urs[u].durationValue
       ur = urs[u];
-    }  
+    }
   }
   if(ur !== undefined)
     return ur.durationNumber;
+
   return "";
 
 }
@@ -229,10 +239,11 @@ Template.routes.timeLabel = function(){
     if((!maxTime) ||(maxTime < urs[u].durationValue)){
       maxTime = urs[u].durationValue
       ur = urs[u];
-    }  
+    }
   }
   if(ur !== undefined)
     return ur.durationLabel;
+
   return "";
 }
 
@@ -272,7 +283,7 @@ function userColor(user){
 
 function shouldcalcRoute(start, end, mode, user){
   // figure out if we should update...
-  
+
   if(lastEnd[user._id] !== end)
     return true;
 
@@ -286,7 +297,7 @@ function shouldcalcRoute(start, end, mode, user){
 
   if(lastStart[user._id]){
     console.log("distancebetween:", distanceBetween([lat, lng], [lastStart[user._id].split(",")[0], lastStart[user._id].split(",")[1]]))
-    if(distanceBetween([lat, lng], [lastStart[user._id].split(",")[0], lastStart[user._id].split(",")[1]]) >500){ 
+    if(distanceBetween([lat, lng], [lastStart[user._id].split(",")[0], lastStart[user._id].split(",")[1]]) >500){
       return true
     }else{
       return false
@@ -311,11 +322,11 @@ function calcRoute(start, end, user) {
     directionsRenderer.setDirections(result);
 
     console.log(result)
-    
 
 
 
-    
+
+
 
     foundRoute =  UserRoutes.find({userid:user._id}).fetch()
     if(foundRoute.length === 0){
@@ -326,7 +337,7 @@ function calcRoute(start, end, user) {
       userroute.durationLabel =result.routes[0].legs[0].duration.text.split(" ")[1];
       userroute.durationValue =result.routes[0].legs[0].duration.value;
       userroute.color = userColor(user);
-      
+
       UserRoutes.insert(userroute)
     }else{
       userroute = foundRoute[0];
@@ -378,10 +389,10 @@ function prettyDate(time){
   var date = new Date((time || "").replace(/-/g,"/").replace(/[TZ]/g," ")),
   diff = (((new Date()).getTime() - date.getTime()) / 1000),
   day_diff = Math.floor(diff / 86400);
-  
+
   if ( isNaN(day_diff) || day_diff < 0 )
 	return;
-  
+
   return day_diff == 0 && (
 	diff < 60 && "just now" ||
 	  diff < 120 && "1 minute ago" ||
@@ -401,9 +412,9 @@ $(function(){
 
   Template.map.rendered =  function(){
     setupMap('map');
-    
+
   }
-  
+
 
   $("#addressentry").on("submit", function(e){
     e.preventDefault();
@@ -415,7 +426,7 @@ $(function(){
                 key:__defaults.mapquest_key,
                 boundingBox:"37.816,-122.536,37.693,-122.340",
                 location:$("#address").val() + ', ' + __defaults.city_name};
-    
+
     $.ajax(url, {data: data, dataType: 'jsonp', success: onAddressFound});
 
   });
@@ -465,7 +476,7 @@ $(function(){
 function getDirections(from, to){
 
   url = "http://www.mapquestapi.com/directions/v1/route?key=Fmjtd%7Cluua2q6and%2Caa%3Do5-hzb59&shapeFormat=raw&generalize=0";
-  
+
   $.ajax(url+"&ambiguities=ignore&outFormat=json&from="+encodeURIComponent(from)+"&to="+encodeURIComponent(to),
          {crossDomain:true,
           dataType:"jsonp",
@@ -506,8 +517,7 @@ function directionsOnMap(data){
 
 
 // USER ICON!!
-
-function UserIcon(center, image, map, status) {
+function UserIcon(center, image, map, status, user) {
 
   // Now initialize all properties.
   this.center_ =center;
@@ -523,6 +533,7 @@ function UserIcon(center, image, map, status) {
 
   // Explicitly call setMap() on this overlay
   this.setMap(map);
+  this.user = user;
 }
 
 UserIcon.prototype = new google.maps.OverlayView();
@@ -547,6 +558,12 @@ UserIcon.prototype.onAdd = function() {
   div.style.borderWidth = "0px";
   div.style.position = "absolute";
   $(div).addClass("user-icon");
+
+  var arrow = document.createElement('div');
+  arrow.style.position = "absolute";
+  $(arrow).addClass("arrow-up");
+  $(arrow).addClass(this.user._id);
+  div.appendChild(arrow);
 
   // Create an IMG element and attach it to the DIV.
   var img = document.createElement("img");
