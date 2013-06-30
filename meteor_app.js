@@ -1,3 +1,4 @@
+UserRoutes = new Meteor.Collection("userroutes");
 
 if (Meteor.isClient) {
   Template.routes.users = function() {
@@ -7,6 +8,7 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
+    UserRoutes.remove({})
     // code to run on server at startup
   });
 }

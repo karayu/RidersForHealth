@@ -31,7 +31,7 @@
 </template>
 
 <template name="routes">
-  <div id="routes">
+  <div id="routes" style="display:{{showroutes}}">
 
     <div id="partystarts" class="route">
       <h3>Party Starts In</h3>
@@ -41,15 +41,13 @@
 
 
     
-    {{#each users}}
+    {{#each userroutes}}
 
 
-    {{#if emails}}
-    <div class="route">
-      <h3 style="background:{{profile.color}}">
-        {{#each emails}}
-        {{address}}
-        {{/each}}
+
+    <div class="route" >
+      <h3 style="background:{{color}}">
+        {{email}}
       </h3>
 
 
@@ -57,25 +55,25 @@
 
       {{_id}}
 
-      {{profile.date}}
+      {{date}}
 
-      {{profile.latitude}}
+      {{latitude}}
 
-      {{profile.longitude}}
+      {{longitude}}
 
-      {{profile.horizontalAccuracy}}
+      {{horizontalAccuracy}}
 
-      {{profile.trueHeading}}
+      {{trueHeading}}
 
-      {{profile.magneticHeading}}
+      {{magneticHeading}}
 
-      {{profile.headingAccuracy}}
+      {{headingAccuracy}}
 
-      {{profile.altitude}}
+      {{altitude}}
 
-      {{profile.speed}}
-      </div>
-    {{/if}}
+       {{speed}}
+    </div>
+
     {{/each}}
 
 </template>
