@@ -174,8 +174,9 @@ function userColor(user){
   if(userColors[user._id])
     return userColors[user._id]
   else{
-    return userColors[user._id] = colors[colorCount];
+    color = userColors[user._id] = colors[colorCount];
     colorCount+=1;
+    return color;
   }
 }
 
@@ -228,6 +229,7 @@ function calcRoute(start, end, user) {
 
     userroute = user.profile
     userroute.userid = user._id
+    userroute.color = userColor(user);
 
     foundRoute =  UserRoutes.find({userid:userroute.userid})
     if(foundRoute.fetch().length === 0)
