@@ -117,7 +117,7 @@ function setupMap(element)
       lat = user.profile.latitude || "37.76774";
       lng = user.profile.longitude || "-122.44147";
       
-      if(shouldcalcRoute(lat+", "+lng, end, user)){
+      if(shouldcalcRoute(lat+", "+lng, end, user.profile.transportationMode, user)){
         markers[user._id] = new UserIcon(new google.maps.LatLng(lat, lng), imgUrl, map, "active");
         calcRoute(lat+", "+lng, end, user);
       }
@@ -132,7 +132,7 @@ function setupMap(element)
         userroute.color = userColor(user);
         userroute.duration = "a"
         userroute.distance = "b"
-        
+
         UserRoutes.insert(userroute)
       }else{
        
@@ -195,7 +195,7 @@ var directions = {};
 
 lastStart = {};
 lastEnd = {};
-
+lastMode = {};
 
 userColors = {};
 
@@ -211,11 +211,15 @@ function userColor(user){
 }
 
 
-function shouldcalcRoute(start, end, user){
+function shouldcalcRoute(start, end, mode, user){
   // figure out if we should update...
   
   if(lastEnd[user._id] !== end)
     return true;
+
+  if(lastMode[user._id] !== mode)
+    return true;
+
 
   lat = start.split(",")[0]
   lng = start.split(",")[1]
